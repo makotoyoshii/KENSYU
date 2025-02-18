@@ -1,0 +1,256 @@
+﻿@{
+    Layout = null;
+}
+
+@model  MvcApplication2.Models.FindModel
+@using  MvcApplication2.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_FindResult</title>
+</head>
+<body>
+    <style>
+        .chk_label {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #ddd; /* 未チェック時の背景色 */
+            width: 130px;
+            height: 50px;
+            text-align: center;
+        }
+
+            .chk_label input[type="checkbox"] {
+                display: none; /* チェックボックスを隠す */
+            }
+
+            .chk_label:hover {
+                background-color: #c1c1c1; /* チェックされた時の背景色 */
+            }
+    </style>
+       <div class="row" >
+			  <div class="col-xs-12" id="検索結果">
+				<table style="border:2px solid #69A4D8; width:100%;">
+                    <tr style="border-bottom: 2px solid #69A4D8; height: 40px;">
+                     <td colspan="7" style="width: auto; border-right: none">
+
+
+
+                    @if(Model != null)  //検索結果一覧を表示する
+                     {
+                        <text>総件数: </text><span id="txt総件数">@( Model.検索結果一覧.Count )</span><text>件</text>
+                     }
+                     else
+                     {
+                        <text>総件数: </text><span id="txt総件数">0</span><text>件</text>
+                     }
+                     </td>
+                     <td style="border: none">
+                    <select class="Select" id="txt表示件数" name="表示件数"
+                            style="width: 100px; float: right;">
+                        <!--- もし、表示したい件数は「すべて」であれば、「すべて」のoptionが
+                         選択されるように設定する --->
+                        <option value="0" @if (Model != null && Model.表示件数 == 0) { <text> selected</text>}>
+                            すべて
+                        </option>
+                        <!--  他のopionにも同じように設定する -->
+                        <option value="5" @if (Model != null && Model.表示件数 == 5) { <text> selected</text>}>
+                            5件
+                        </option>
+                        <option value="10" @if (Model != null && Model.表示件数 == 10) { <text> selected</text>}>
+                            10件
+                        </option>
+                        <option value="20" @if (Model != null && Model.表示件数 == 20) { <text> selected</text>}>
+                            20件
+                        </option>
+                        <option value="50" @if (Model != null && Model.表示件数 == 50) { <text> selected</text>}>
+                            50件
+                        </option>
+                        <option value="100" @if (Model != null && Model.表示件数 == 100) { <text> selected</text>}>
+                            100件
+                        </option>
+                    </select>
+                   </td>
+                  </tr> 
+
+                 <tr style="border-bottom: 2px solid #69A4D8; height: 40px;" id="検索結果一覧">
+                <text id="txtソート">
+                <td style="width: 6%; text-align: center;">選択</td>
+                <!-- 「ユーザーID」列がクリックされた場合、「sort」メソッドにthisオブジェクトを渡して、
+                実行するthisオブジェクトは現在の「td」オブジェクトである　↓  -->
+                <td style="width: 14%; text-align: center;" onclick="sort(this)">
+                    ユーザーID
+                    <br />
+                    <span>
+                        @if (Model != null && Model.ソート列 == "ユーザーID")
+                        {<text>@Model.ソート順</text>}
+                    </span>
+                </td>
+                <td style="width: 14%; text-align: center;" onclick="sort(this)">
+                    氏名
+                    <br />
+                    <span>
+                        @if (Model != null && Model.ソート列 == "氏名")
+                        {<text>@Model.ソート順</text>}
+                    </span>
+                </td>
+                <td style="width: 6%; text-align: center;" onclick="sort(this)">
+                    性別
+                    <br />
+                    <span>
+                        @if (Model != null && Model.ソート列 == "性別")
+                        {<text>@Model.ソート順</text>}
+                    </span>
+                </td>
+                <td style="width: 13%; text-align: center;" onclick="sort(this)">
+                    電話番号
+                    <br />
+                    <span>
+                        @if (Model != null && Model.ソート列 == "電話番号")
+                        {<text>@Model.ソート順</text>}
+                    </span>
+                </td>
+                <td style="width: 9%; text-align: center;" onclick="sort(this)">
+                    郵便番号
+                    <br />
+                    <span>
+                        @if (Model != null && Model.ソート列 == "郵便番号")
+                        {<text>@Model.ソート順</text>}
+                    </span>
+                </td>
+                <td style="width: 13%; text-align: center;" onclick="sort(this)">
+                    住所
+                    <br />
+                    <span>
+                        @if (Model != null && Model.ソート列 == "住所")
+                        {<text>@Model.ソート順</text>}
+                    </span>
+                </td>
+                </text>
+            </tr>
+
+                    @if(Model != null && Model.表示一覧 != null)  //検索結果一覧を表示する
+                     {
+                        foreach(FindRowModel row in Model.表示一覧) 
+                        {
+					     <tr style="border-bottom: 2px solid #69A4D8; height: 40px;">
+						     <td><input type="checkbox" id="@row.ユーザーID"/></td>
+                             <td>@row.ユーザーID</td>
+						     <td>@row.氏名</td>
+						     @if (row.性別 == "1") 
+                             {
+                                 <td>男</td>										
+                             } else if (row.性別 == "2") 
+                             {										
+                                 <td>女</td>										
+                             } else 
+                             {										
+                                 <td></td>										
+                             }
+                             <td>@row.電話番号</td>  										
+                             <td>@row.郵便番号</td>										
+                             <td>@row.住所</td>
+                         </tr>
+                        }
+                    }										
+
+                     @if (Model != null && Model.表示一覧 != null && Model.表示一覧.Count < Model.検索結果一覧.Count)
+            {
+                <tr style="border-bottom: 2px solid #69A4D8;" id="tb改ページ">
+                    <td colspan="8" style="border: none;"></td>
+                    <td style="border: none; display: block; float: right;">
+                        @if (Model.現ページ == 1)
+                        {
+                            // 検索結果に表示対象ページは1ページ目であれば、前のページに
+                            // 移動するボタンが無効されたと見えるような灰色の画像を設定する
+                            <input type="image" src="/Images/left_triangle_disable.png" id="btn前ページ"
+                                   style="float: left; width: 30px; margin: 2px;" />
+                        }
+                        else
+                        {
+                            // 検索結果に表示対象ページは1ページ目ではなければ、前のページに
+                            // 移動するボタンが利用できると見えるような画像を設定する
+                            <input type="image" src="/Images/left_triangle.png" id="btn前ページ"
+                                   style="float: left; width: 30px; margin: 2px;" />
+                        }
+                        <select id="txt現ページ" name="現ページ"
+                                style="width: 50px; margin-bottom: 5px">
+                            @if (Model.表示件数 != 0)
+                            {
+
+                                if (Model.検索結果一覧.Count % Model.表示件数 == 0)
+                                {
+                                    // 選択された「表示件数」を踏まえてページ番号のリストを作成する
+                                    for (int i = 1; i <= Model.検索結果一覧.Count / Model.表示件数; i++)
+                                    {
+                                        if (i == Model.現ページ)
+                                        {
+                                            <option selected value="@(i)">@(i)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@(i)">@(i)</option>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // 選択された「表示件数」を踏まえてページ番号のリストを作成する
+                                    for (int i = 1; i <= Model.検索結果一覧.Count / Model.表示件数 + 1; i++)
+                                    {
+                                        if (i == Model.現ページ)
+                                        {
+                                            <option selected value="@(i)">@(i)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@(i)">@(i)</option>
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+
+                        @if (Model.検索結果一覧.Count % Model.表示件数 == 0)
+                        {
+                            if (Model.現ページ == (Model.検索結果一覧.Count / Model.表示件数))
+                            {
+                                // 移動するボタンが無効されたと見えるような灰色のがぞうを設定する
+                                <input type="image" src="/Images/right_triangle_disable.png" id="btn次ページ"
+                                       style="float: right; width: 30px; margin: 2px;" />
+                            }
+                            else
+                            {
+                                // 検索結果に表示対象ページは1ページ目ではなければ、前のページに
+                                // 移動するボタンが利用できると見えるような画像を設定する
+                                <input type="image" src="/Images/right_triangle.png" id="btn次ページ"
+                                       style="float: right; width: 30px; margin: 2px;" />
+                            }
+                        }
+                        else
+                        {
+                            if (Model.現ページ == (Model.検索結果一覧.Count / Model.表示件数 + 1))
+                            {
+                                // 移動するボタンが無効されたと見えるような灰色のがぞうを設定する
+                                <input type="image" src="/Images/right_triangle_disable.png" id="btn次ページ"
+                                       style="float: right; width: 30px; margin: 2px;" />
+                            }
+                            else
+                            {
+                                // 検索結果に表示対象ページは1ページ目ではなければ、前のページに
+                                // 移動するボタンが利用できると見えるような画像を設定する
+                                <input type="image" src="/Images/right_triangle.png" id="btn次ページ"
+                                       style="float: right; width: 30px; margin: 2px;" />
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+				</table>
+			   </div>
+			  </div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+﻿@model MvcApplication2.Models.BulletinBoardModel
+@using MvcApplication2.Models
+
+
+<table style="width:100%;border:1px solid #5B9BD5;border-bottom:0">
+    <tr>
+        <td style="width:340px;padding-left:5px">
+            総件数:<label class="Label" id="lbl総件数">@Model.総件数</label>件
+        </td>
+        <td style="width:auto;text-align:right;padding-right:5px" colspan="2">
+            表示件数
+            <select class="Select" id="cbx表示件数" name="表示件数" style="width:80px">
+                <option value="5" @if (Model.表示件数 == 5) {<text>selected</text>} >5件</option>
+                <option value="10" @if (Model.表示件数 == 10) {<text>selected</text>} >10件</option>
+                <option value="20" @if (Model.表示件数 == 20) {<text>selected</text>} >20件</option>
+                <option value="50" @if (Model.表示件数 == 50) {<text>selected</text>} >50件</option>
+                <option value="100" @if (Model.表示件数 == 100) {<text>selected</text>} >100件</option>
+            </select>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table id="表示一覧" style="width:100%";>
+    <tr id="頭"  style="border-bottom:3px solid #5B9BD5;font-weight:normal;cursor:pointer">
+    @*    
+        <td style="text-align:center;width:50px;" onclick="order('表示状態')">状態<br /><span>@if (Model.順番名前 == "表示状態"){ <text>@Model.順番</text> }</span></td>
+        <td style="text-align:center;width:50px;" onclick="order('分類')">種類<br /><span>@if (Model.順番名前 == "分類"){ <text>@Model.順番</text> }</span></td>
+        <td style="text-align:center;width:50px;" onclick="order('重要度')">重要度<br /><span>@if (Model.順番名前 == "重要度"){ <text>@Model.順番</text> }</span></td>
+        <td style="text-align:center;width:80px;" onclick="order('タイトル')">件名<br /><span>@if (Model.順番名前 == "タイトル"){ <text>@Model.順番</text> }</span></td>
+        <td style="text-align:center;width:200px;" onclick="order('内容')">内容<br /><span>@if (Model.順番名前 == "内容"){ <text>@Model.順番</text> }</span></td>
+        <td style="text-align:center;width:80px;" onclick="order('ニックネーム')">投稿者<br /><span>@if (Model.順番名前 == "ニックネーム"){ <text>@Model.順番</text> }</span></td>
+        <td style="text-align:center;width:140px;" onclick="order('登録日時')">投稿日<br /><span>@if (Model.順番名前 == "登録日時"){ <text>@Model.順番</text> }</span></td>*@
+
+
+        <td style="width:50px;text-align:center" onclick="order('表示状態')">状態<br /><div id="表示状態up" class="表示状態ud" style="display:none">▲</div><div id="表示状態down" class="ud" style="display:none">▼</div></td>
+        <td style="width:50px;text-align:center" onclick="order('分類')">種類<br /><div id="分類up" class="分類ud" style="display:none">▲</div><div id="分類down" class="ud" style="display:none">▼</div></td>
+        <td style="width:50px;text-align:center" onclick="order('重要度')">重要度<br /><div id="重要度up" class="ud" style="display:none">▲</div><div id="重要度down" class="ud" style="display:none">▼</div></td>
+        <td style="width:80px;text-align:center" onclick="order('タイトル')">件名<br /><div id="タイトルup" class="ud" style="display:none">▲</div><div id="タイトルdown" class="ud" style="display:none">▼</div></td>
+        <td style="width:200px;text-align:center" onclick="order('内容')">内容<br /><div id="内容up" class="ud" style="display:none">▲</div><div id="内容down" class="ud" style="display:none">▼</div></td>
+        <td style="width:80px;text-align:center" onclick="order('ニックネーム')">投稿者<br /><div id="ニックネームup" class="ud" style="display:none">▲</div><div id="ニックネームdown" class="ud" style="display:none">▼</div></td>
+        <td style="width:140px;text-align:center" onclick="order('登録日時')">投稿日<br /><div id="登録日時up" class="ud" style="display:none">▲</div><div id="登録日時down" class="ud" style="display:none">▼</div></td>
+    </tr>
+
+@{
+    var show = 0;
+    var showpage = Model.表示件数;
+    if (showpage == 0) { showpage = Model.総件数; }
+
+    if (Model.表示一覧 != null)  // ★ null チェック
+    {
+        foreach (BulletinBoardModel.項目 km in Model.表示一覧)
+        {
+            <tr style="cursor:pointer" onclick="takeID(@km.掲示板ID)">
+                <td style="text-align:center;width:50px">@km.表示状態</td>
+                <td style="text-align:center;width:50px">@km.分類</td>
+                <td style="text-align:center;width:50px">@km.重要度</td>
+                <td style="width:80px">@km.タイトル</td>
+                @{
+                    string ny = km.内容;
+                    if (!string.IsNullOrEmpty(ny) && ny.Length > 22)
+                    {
+                        ny = km.内容.Substring(0, 20) + "...";
+                    }
+                }
+                <td style="width:200px">@(ny ?? "")</td>
+                <td style="width:80px">@km.ニックネーム</td>
+                <td style="width:140px">@km.登録日時</td>
+            </tr>
+        }
+    }
+}
+        @*改ページの表示処理*@
+    @if (Model.表示一覧 != null && Model.表示一覧.Count < Model.結果一覧.Count)
+    {
+    <tr>
+        <td colspan="7">
+            <table id="tb改ページ" style="width:1px;height:40px;float:right">
+                <tr style="height:30px;vertical-align:bottom">
+                    <td style="width:82%;text-align:right">
+                        @if (Model.ページ == 1)
+                        {
+                        <input type="image" src="~/Images/left_triangle_disable.png" id="btn前ページ" style="width:30px;font-weight:bold;outline:none" />
+                        }
+                        else
+                        {
+                        <input type="image" src="~/Images/left_triangle.png" id="btn前ページ" style="width:30px;font-weight:bold;outline:none" />
+                        }
+                    </td>
+                    <td style="width:60px">
+                        <select class="Select" name="現ページ" id="txt現ページ" style="width:60px;margin-bottom:5px">
+                            @if (Model.表示件数 != 0)
+                            {
+                                for (int i = 1; i <= Model.結果一覧.Count / Model.表示件数 + (Model.結果一覧.Count % Model.表示件数 == 0 ? 0 : 1); i++)
+                            {
+                                if(i == Model.ページ)
+                                {
+                                <option selected value="@(i)">@(i)</option>
+                                }
+                                else
+                                {
+                                <option value="@(i)">@(i)</option>
+                                }
+                            }
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        @if (Model.ページ == Model.結果一覧.Count / Model.表示件数 + (Model.結果一覧.Count % Model.表示件数 == 0 ? 0 : 1))
+                        {
+                        <input type="image" src="~/Images/right_triangle_disable.png" id="btn次ページ" style="width:30px;font-weight:bold;outline:none" />
+                        }
+                        else
+                        {
+                        <input type="image" src="~/Images/right_triangle.png" id="btn次ページ" style="width:30px;font-weight:bold;outline:none" />
+                        }
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    }
+
+</table>
+
+@*<table style="width:100%">
+    <tr style="height:10px">
+        <td colspan="4"></td>
+    </tr>
+    <tr>
+        <td style="width:auto"></td>
+        <td style="width:40px">
+            <input type="image" src="/Images/left_triangle.png" name="前のページ" id="btn前のページ" style="margin-right:10px; width:30px;font-weight:bold" />
+        </td>
+
+        <td style="width:70px">
+            <select class="Select" id="txt現ページ" name="改ページ" style="width:60px; margin-bottom:8px; margin-right:10px"></select>
+        </td>
+
+        <td style="width:30px">
+            <input type="image" src="/Images/right_triangle.png" name="次のページ" id="btn次のページ" style="width:30px; font-weight:bold" />
+        </td>
+    </tr>
+
+</table>*@
+
+<input type="hidden" id="総ページ" value="@Model.総ページ"/>

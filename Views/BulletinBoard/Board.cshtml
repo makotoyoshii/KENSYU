@@ -1,0 +1,97 @@
+﻿@model MvcApplication2.Models.BulletinBoardModel
+@using MvcApplication2.Models
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link type="text/css" rel="stylesheet" href="/Content/bootstrap.css">
+    <link type="text/css" rel="new stylesheet" href="/Content/Site.css">
+    <script src="/Script/jquery-1.10.2.min.js" type="text/javascript"></script>
+    
+    
+        <script>
+    $(document).ready(function() {
+        $("#btn検索").click(function() {
+            $("#表示一覧").show();
+        });
+    });
+</script>
+    
+</head>
+<body>
+    <div>
+        <table style="width:100%">
+            <tr style="height:10px;">
+                <td style="font-size:25px;font-weight:bold;width:100%">掲示板</td>
+            </tr>
+            <tr style="height:10px;">
+                <td style="width:100%">
+                    <div class="TitleLine" style="width:100%"> </div>
+                </td>
+            </tr>
+        </table>
+
+        <form id="searchForm" action="/BulletinBoard/Search" method="post">
+    <table>
+        <tr>
+            <td style="width:50px"></td>
+            <td style="width:100px">表示状態</td>
+            <td style="width:130px">
+                <select class="Select" id="cbx表示状態" name="state" style="width:100px;text-align:left">
+                    <option value="表示中" selected="selected">表示中</option>
+                    <option value="削除">削除</option>
+                    <option value="すべて">すべて</option>
+                </select>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>検索項目</td>
+            <td>
+                <select class="Select" id="cbx検索項目" name="option" style="width:100px;text-align:left">
+                    <option value="種類">種類</option>
+                    <option value="重要度">重要度</option>
+                    <option value="投稿者">投稿者</option>
+                    <option value="件名">件名</option>
+                    <option value="登録日" selected="selected">登録日</option>
+                </select>
+            </td>
+            <td style="width:230px">
+                <input type="text" class="TextBox" id="txt検索入力" name="str" style="width:200px" placeholder="YYYYMMDD" />
+            </td>
+            <td style="width:auto">
+                <button type="submit" class="Button" id="btn検索" style="width:70px;height:30px">検索</button>
+            </td>
+        </tr>
+        <tr style="height:10px"><td colspan="5"></td></tr>
+        <tr>
+            <td></td>
+            <td colspan="4">
+                <button type="button" class="Button" id="btn掲示板登録" onclick="location.href='/BulletinBoard/Register'" style="width:150px">掲示板登録</button>
+            </td>
+        </tr>
+        <tr style="height:10px"><td colspan="5"></td></tr>
+    </table>
+</form>
+
+        <table>
+            <tr>
+                <td style="width:50px"></td>
+                <td style="width:auto">
+                    <div id="div掲示板一覧">
+                        @Html.Partial("~/views/BulletinBoard/_BulletinList.cshtml")
+                    </div>
+                </td>
+                <td style="width:50px"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

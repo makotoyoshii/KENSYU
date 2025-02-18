@@ -1,0 +1,515 @@
+﻿
+@{
+Layout = null;
+}
+
+@model MvcApplication2.Models.FindModel
+@using MvcApplication2.Models
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+	<title>ユーザー検索</title>
+
+	<link type="text/css" rel="stylesheet" href="/Content/bootstrap.css" />
+	<link type="text/css" rel="new stylesheet" href="/Content/Site.css" />
+    <script src="/Script/jquery-1.10.2.min.js" type="text/javascript"></script>
+
+</head>
+	<body>
+       
+        <div class="TOPBAR">ユーザー検索画面</div>
+      	<form id="Form1" method="post" action="Find">
+
+                  @*検索条件のHTML*@																				
+			    <div class="container-fluid" id="div検索条件">
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								ユーザーID
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txtユーザーID" name="ユーザーID" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								メール
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txtメール" name="メール" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								ニックネーム
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txtニックネーム" name="ニックネーム" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								氏名
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txt氏名" name="氏名" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								性別
+							</div>
+							<div class="col-xs-8" style="height:30px;">
+								<input name="性別" type="radio" value="1"><span>男</span></input>
+								<input name="性別" type="radio" value="2"><span>女</span></input>
+							</div>
+						 </div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								生年月日
+							</div>
+							<div class="col-xs-8">
+								<table>
+									<tr>
+										<td style="width:80px">
+											<select class="Select" name="生年" id="txt生年" style="width:70px">
+												<option selected=""></option>
+													<option value="2017">2017</option>
+													<option value="2016">2016</option>
+													<option value="2015">2015</option>
+											</select>
+										</td>
+										<td style="width:60px">
+											<select class="Select" name="生月" id="txt生月" style="width:50px">
+												<option value=""></option>
+													<option value="1">00</option>
+													<option value="2">00</option>
+													<option value="3">00</option>
+													<option value="4">00</option>
+													<option value="5">00</option>
+													<option value="6">00</option>
+													<option value="7">00</option>
+													<option value="8">00</option>
+													<option value="9">00</option>
+													<option value="10">00</option>
+													<option value="11">00</option>
+													<option value="12">00</option>
+											</select>
+										</td>
+										<td style="width:60px">
+											<select class="Select" name="生日" id="txt生日" style="width:50px">
+												<option value=""></option>
+													<option value="1">00</option>
+													<option value="2">00</option>
+													<option value="3">00</option>
+													<option value="4">00</option>
+													<option value="5">00</option>
+													<option value="6">00</option>
+													<option value="7">00</option>
+													<option value="8">00</option>
+													<option value="9">00</option>
+													<option value="10">00</option>
+													<option value="11">00</option>
+													<option value="12">00</option>
+													<option value="13">00</option>
+													<option value="14">00</option>
+													<option value="15">00</option>
+													<option value="16">00</option>
+													<option value="17">00</option>
+													<option value="18">00</option>
+													<option value="19">00</option>
+													<option value="20">00</option>
+													<option value="21">00</option>
+													<option value="22">00</option>
+													<option value="23">00</option>
+													<option value="24">00</option>
+													<option value="25">00</option>
+													<option value="26">00</option>
+													<option value="27">00</option>
+													<option value="28">00</option>
+													<option value="29">00</option>
+													<option value="30">00</option>
+													<option value="31">00</option>
+											</select>
+											<input type="hidden" name="生年月日" id="txt生年月日">
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>					
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								年齢
+							</div>
+							<div class="col-xs-8" style="text-align:left">
+								<input class="TextBox" id="txt年齢" name="年齢" style="width:70px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								電話番号
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txt電話番号" name="電話番号" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								郵便番号
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txt郵便番号" name="郵便番号" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								住所
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txt住所" name="住所" style="width:300px" type="text" value=""> 
+							</div>
+						</div>																						
+                            <div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								入社日
+							</div>
+							<div class="col-xs-8">
+								<table>
+									<tr>
+										<td style="width:80px">
+											<select class="Select" name="入社年" id="txt入社年" style="width:70px">
+												<option selected=""></option>
+													<option value="2017">2017</option>
+													<option value="2016">2016</option>
+													<option value="2015">2015</option>
+											</select>
+										</td>
+										<td style="width:60px">
+											<select class="Select" name="入社月" id="txt入社月" style="width:50px">
+												<option value=""></option>
+													<option value="1">00</option>
+													<option value="2">00</option>
+													<option value="3">00</option>
+													<option value="4">00</option>
+													<option value="5">00</option>
+													<option value="6">00</option>
+													<option value="7">00</option>
+													<option value="8">00</option>
+													<option value="9">00</option>
+													<option value="10">00</option>
+													<option value="11">00</option>
+													<option value="12">00</option>
+											</select>
+										</td>
+                                        <td style="width:60px">
+											<select class="Select" name="入社日" id="txt入社日" style="width:50px">
+												<option value=""></option>
+													<option value="1">00</option>
+													<option value="2">00</option>
+													<option value="3">00</option>
+													<option value="4">00</option>
+													<option value="5">00</option>
+													<option value="6">00</option>
+													<option value="7">00</option>
+													<option value="8">00</option>
+													<option value="9">00</option>
+													<option value="10">00</option>
+													<option value="11">00</option>
+													<option value="12">00</option>
+													<option value="13">00</option>
+													<option value="14">00</option>
+													<option value="15">00</option>
+													<option value="16">00</option>
+													<option value="17">00</option>
+													<option value="18">00</option>
+													<option value="19">00</option>
+													<option value="20">00</option>
+													<option value="21">00</option>
+													<option value="22">00</option>
+													<option value="23">00</option>
+													<option value="24">00</option>
+													<option value="25">00</option>
+													<option value="26">00</option>
+													<option value="27">00</option>
+													<option value="28">00</option>
+													<option value="29">00</option>
+													<option value="30">00</option>
+													<option value="31">00</option>
+											</select>
+											<input type="hidden" name="入社年月日" id="入社年月日">
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								所属
+							</div>
+							<div class="col-xs-8">
+								<select class="Select" name="所属" id="cbx所属" style="width:100px">
+									<option></option>
+									<option>技術部</option>
+									<option>営業部</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								役職
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txt役職" name="役職" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								趣味
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txt趣味" name="趣味" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								特技
+							</div>
+							<div class="col-xs-8">
+								<input class="TextBox" id="txt特技" name="特技" style="width:300px" type="text" value=""> 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3" style="vertical-align:top;padding-top:3px">
+								座右銘
+							</div>
+							<div class="col-xs-8">
+								<textarea class="TextBox" cols="20" id="txt座右銘" name="座右銘" rows="2" style="width:300px;height:80px;resize:none"></textarea> 
+							</div>
+						</div>
+						<div class="row" style="height:10px">
+							
+						</div>
+					</div>																	
+																						
+				@*各ボタンのHTML*@
+                  
+									 <div class="row">
+				                        <div class="col-xs-6">
+					                        <input type="button" class="BUTTON" id="btn検索" value="検索" style="width:130px">     @*Ajaxに入ったらsubmitをbuttonに変える*@
+				                        </div>
+				                        <div class="col-xs-3">
+					                        <input type="button" class="BUTTON" value="メール送信" style="width:130px; float:right;">
+				                        </div>
+				                        <div class="col-xs-3">
+					                        <input type="button" class="BUTTON" value="申請確認" style="width:130px; float:right;">
+				                        </div>
+                                          <div id="container">
+                                                @*ここに_FindResult.cshtmlが入る*@
+                                           </div>  
+			                          </div>
+												
+		     </form>
+   </body>																					
+</html>		
+
+<script type="text/javascript">
+    $(document).on('click', "[id = 'btn検索']", function () {
+        $.ajax({
+                url: "/FindUser/Find",
+                type: "post",
+                data: $("#Form1").serialize(),
+                //contentType: 'application/jspn',
+                success: function (data) {
+                    //alert("正常");
+                    var extractedContent = $(data).find("#検索結果").html();
+                    $("#container").html(extractedContent);
+                },
+                error: function () {
+                    alert("システムエラーが発生しました");
+                }
+            });
+    });
+
+    $(document).on('change', "[id ='txt表示件数']", function () {
+        if ($('#txt総件数').text() == "0") {
+            return;
+        }
+        $.ajax({
+            url: "/FindUser/GetPage",
+            type: "post",
+            //  表示件数」のコンボボックスの値を指定する↓　　　　　　↓1ページ目を指定する
+            data: JSON.stringify({ rowCount: $("#txt表示件数").val(), pageNum: 1 }),
+            // 　　↑「表示件数」のコンボボックスの値が変わった時、ユーザ-一覧に該当する
+            //        件数の1ページ目のデータを表示する。このデータを取得するために、
+            //        選択された件数と1ページ目のページ番号をサーバー側に送る
+            contentType: 'application/json',
+            success: function (data) {
+                $("#container").html(data);
+            },
+            error: function () {
+                alert("システムエラーが発生しました2");
+            }
+        });
+    });
+
+    $(document).on('change', "[id ='txt現ページ']", function () {
+        if ($('#txt総件数').text() == "0") {
+            return;
+        }
+        $.ajax({
+            url: "/FindUser/GetPage",
+            type: "post",
+            // 「表示件数」のコンボボックスの値を指定する　↓　　　　　↓1ページ目を指定する
+            data: JSON.stringify({ rowCount: $("#txt表示件数").val(), pageNum: $('#txt現ページ').val() }),
+            // ↑ 「表示件数」のコンボボックスの値と選択されたページ番号をサーバーに送る
+            contentType: 'application/json',
+            success: function (data) {
+                $("#container").html(data);
+            },
+            error: function () {
+                alert("システムエラーが発生しました3");
+            }
+        });
+    });
+
+    $(document).on('click', "[id ='btn前ページ']", function () {
+        // ボタンのデフォルトの「Submit」イベントを無効にする
+        event.preventDefault();
+        // コンボボックスから選択されているページ番号を取得
+        var selecting = $('#txt現ページ').val();
+
+        // もし、現ページは1ページ目なら、次の処理に行かない
+        if (selecting == 1) {
+            return;
+        }
+
+        // コンボボックスの表示ページ番号から1を引く
+        $('#txt現ページ').val(Number(selecting) - 1);
+        // 有効なボタンの画像を設定する
+        $('#btn次ページ').attr("src", "/Images/right_triangle.png");
+
+        $.ajax({
+            url: "/FindUser/GetPage",
+            type: "post",
+            // 「表示件数」のコンボボックスの値を設定する↓　　　　↓ 前のページ番号を指定する
+            data: JSON.stringify({ rowCount: $("#txt表示件数").val(), pageNum: (Number(selecting) - 1) }),
+            //  ↑ 「表示件数」のコンボボックスの値と選択されたページ番号をサーバーに送る
+            contentType: 'application/json',
+            success: function (data) {
+                $("#container").html(data);
+            },
+            error: function () {
+                alert("システムエラーが発生しました4");
+            }
+        });
+    });
+
+    $(document).on('click', "[id = 'btn次ページ']", function () {
+        // ボタンのデフォルトの「Submit」イベントを無効にする
+        event.preventDefault();
+        // コンボボックスのから選択されているページ番号を取得
+        var selecting = $('#txt現ページ').val();
+        // 最後のページ番号を取得する
+        var maxvalue = $('#txt現ページ option:last-child').val();
+
+        // もし、現ページが最後のページなら次の処理に行かない
+        if (selecting == maxvalue) {
+            return;
+        }
+
+        // コンボボックスの表示ページ番号に1を加える
+        $('#txt現ページ').val(Number(selecting) + 1);
+        // 有効なボタンの画像を設定する
+        $('#btn前ページ').attr("src", "/Images/left_triangle.png");
+
+        $.ajax({
+            url: "/FindUser/GetPage",
+            type: "post",
+            data: JSON.stringify({
+                rowCount: $("#txt表示件数").val(),
+                pageNum: (Number(selecting) + 1)
+            }),
+            contentType: 'application/json',
+            success: function (data) {
+                $("#container").html(data);
+            },
+            error: function () {
+                alert("システムエラーが発生しました5");
+            }
+        });
+    });
+
+    function sort(obj) {
+        if ($('#txt総件数').text() == "0") {
+            return;
+        }
+
+        var span = $(obj).find("span");
+        var order = span.text().trim();
+        var colName = $(obj).text().replace("▲", "").replace("▼", "").trim();
+
+        // タイトルからソート順のマークを削除する
+        //        「検索結果一覧」の一番目のすべての「td」の
+        //          一覧を取得する　↓                ↓取得した一覧の要素ごとに対して
+        //                                              <span>タグの内容を消す
+        $("#検索結果一覧").find("tr:nth-child(1) td").each(function () {
+            $(this).find("span").text("");
+        });
+
+        // 次にどんな順で「検索結果一覧」をソートするかと決める
+        if (order == "" || order == "▼") {
+            order = "▲";
+        }
+        else {
+            order = "▼";
+        }
+
+        // 下記3行＞＞1ページ目を表示するのでこの設定を行う
+        // 「前」ページボタンを無効にする
+        $('#btn前ページ').attr("src", "/Images/left_triangle_disable.png");
+        // 「現ページ」を１にする
+        $('#txt現ページ').val(1);
+        // 「次ページ」ボタンを有効にする
+        $('#btn次ページ').attr("src", "/Images/right_triangle.png");
+
+
+        $.ajax({
+            url: "/FindUser/Sort",
+            type: "post",
+            //            ソート対象列名↓　　　　　　　↓ソート順
+            data: JSON.stringify({ colName: colName, sortOrder: order }),
+            // ↑ソートしたい列とソートしたい順をサーバーに送る
+            contentType: 'application/json',
+            success: function (data) {
+                $("#container").html(data);
+            },
+            error: function () {
+                alert("システムエラーが発生しました6");
+            }
+        });
+    };
+</script>
+
+
+
+

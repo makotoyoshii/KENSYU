@@ -1,0 +1,90 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+
+
+<html>																						
+	<head>																					
+		<title>PANDA画面</title>																				
+		<link type="text/css" rel="stylesheet" href="/Content/bootstrap.css">
+		<link type="text/css" rel="new stylesheet" href="/Content/Site.css">
+        <script src="/Script/jquery-1.10.2.min.js" type="text/javascript"></script>
+		
+        <style>
+            .BASECONTAINER {
+				width:1000px;
+				height:100%;
+				margin:0 auto; /* 中央に寄せる */
+				background-color:white;
+				text-align:center;
+                height: 100vh;
+			}													
+			.CONTAINER																			
+			{																			
+				width:250px;																		
+				margin:0 auto;																		
+				margin-bottom:5px;																		
+			}																			
+																
+			.LEFT																			
+			{																			
+				float:left;																		
+			}																			
+			.RIGHT																			
+			{																			
+				float:right;																		
+			}
+            
+            .TEXTBOX {
+				width:100%;
+				margin-bottom:5px;
+			}
+
+			.SPAN {
+				float:left;
+				margin-left:5px;
+			}
+
+			.CHECKBOX {
+				margin-top:0px !important; 
+				margin-bottom:5px !important; 
+			}
+																						
+			.BUTTON																			
+			{																			
+				width:250px;																		
+			}																			
+			.TEXTAREA																			
+			{																			
+				width:500px;																		
+				height:200px;																	
+			}																			
+		</style>
+
+          
+	</head>
+    <body>
+        <form method="post" action="Index" id="Form1">
+	    <div class="BASECONTAINER">
+		    <div style="height:100px;clear:both;"></div>
+		    <div class="CONTAINER">
+			    <input type="text" class="TEXTBOX" name="ユーザーID" id="txtユーザーID" placeholder="ユーザー名"/>
+			    <input type="password" class="TEXTBOX" name="パスワード" id="txtパスワード" placeholder="パスワード"/>
+                <input type="text" class="TEXTBOX" name="メールアドレス" id="txtメールアドレス" placeholder="メールアドレス"/>
+			    <input type="checkbox" class="CHECKBOX LEFT" name="ID保存" id="chkID保存"/>
+			    <span class="SPAN">IDを保存する</span>
+			    <input type="button" class="BUTTON" value="ログイン" id="btnログイン" @*onclick="return CheckNull()"*@/>
+			    <a href="" class="LEFT" >パスワード忘れ</a>
+			    <a href="" class="RIGHT" >新規登録</a>
+		    </div>
+		    <textarea class="TEXTAREA" readonly>お知らせ</textarea>
+	    </div>
+    </form>
+    													
+	
+	    
+</body>
+</html>				
